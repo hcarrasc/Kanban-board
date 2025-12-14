@@ -3,7 +3,7 @@ import { useDroppable } from '@dnd-kit/core';
 interface ColumnProps {
     id: string;
     title: string;
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 
 function Column({ id, title, children }: ColumnProps) {
@@ -16,7 +16,7 @@ function Column({ id, title, children }: ColumnProps) {
             ref={setNodeRef}
             className="column"
             style={{
-                backgroundColor: isOver ? '#eaeaea' : 'transparent',
+                backgroundColor: isOver ? '#dce5eb' : '#ecf0f3',
             }}
         >
             <h2>{title}</h2>

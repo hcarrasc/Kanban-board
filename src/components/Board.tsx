@@ -4,15 +4,6 @@ import Column from './Column';
 import TaskCard from './TaskCard';
 import type { Task, Status } from '../types/task';
 
-const initialTasks: Task[] = [
-    {
-        id: '1',
-        title: 'Task 1',
-        description: 'This is the first task.',
-        status: 'todo',
-    },
-];
-
 const columns: { id: Status; title: string }[] = [
     { id: 'todo', title: 'To do' },
     { id: 'in-progress', title: 'In Progress' },
@@ -21,7 +12,26 @@ const columns: { id: Status; title: string }[] = [
 ];
 
 function Board() {
-    const [tasks, setTasks] = useState<Task[]>(initialTasks);
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!title.trim()) return;
+
+        const newTask: Task = {
+            id: crypto.randomUUID(),
+            title: title,
+            description: description,
+            status: 'todo',
+        };
+        setTasks((prev) => [...prev, newTask]);
+
+        setTitle('');
+        setDescription('');
+    };
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
@@ -38,6 +48,26 @@ function Board() {
 
     return (
         <DndContext onDragEnd={handleDragEnd}>
+            <section className="inbox">
+                <div className="column">
+                    <h2>NEW TASK</h2>
+                    <form className="task-card" onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            placeholder="Título"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Descripción"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                        <button type="submit">Agregar</button>
+                    </form>
+                </div>
+            </section>
             <section className="board">
                 {columns.map((column) => (
                     <Column key={column.id} id={column.id} title={column.title}>
