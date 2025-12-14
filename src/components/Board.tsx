@@ -4,7 +4,7 @@ import Column from './Column';
 import TaskCard from './TaskCard';
 import type { Task, Status } from '../types/task';
 import ColumnTrash from './ColumnTrash';
-import { getTasks, createTask } from '../services/taskService';
+import { getTasks, createTask, updateTask } from '../services/taskService';
 
 const columns: { id: Status; title: string }[] = [
     { id: 'todo', title: 'To do' },
@@ -35,17 +35,10 @@ function Board() {
         e.preventDefault();
         if (!title.trim()) return;
 
-        const newTask: Task = {
-            id: crypto.randomUUID(),
-            title: title,
-            description: description,
-            status: 'todo',
-        };
-
-        await createTask({
+        const newTask = await createTask({
             title,
             description,
-            status: newTask.status,
+            status: 'todo',
         });
 
         setTasks((prev) => [...prev, newTask]);
@@ -53,7 +46,7 @@ function Board() {
         setDescription('');
     };
 
-    const handleDragEnd = (event: DragEndEvent) => {
+    const handleDragEnd = async (event: DragEndEvent) => {
         const { active, over } = event;
         if (!over) return;
         const taskId = active.id as string;
@@ -61,6 +54,15 @@ function Board() {
         setTasks((prev) =>
             prev.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task)),
         );
+
+        try {
+            await updateTask({
+                id: taskId,
+                status: newStatus,
+            });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (

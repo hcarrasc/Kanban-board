@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase';
-import type { Task, CreateTaskInput } from '../types/task';
+import type { Task, CreateTaskInput, UpdateTaskInput } from '../types/task';
 
 export const getTasks = async (): Promise<Task[]> => {
     const { data, error } = await supabase
@@ -30,6 +30,26 @@ export const createTask = async (input: CreateTaskInput): Promise<Task> => {
 
     if (error) {
         console.error('Error creando task:', error);
+        throw error;
+    }
+
+    return data as Task;
+};
+
+export const updateTask = async (input: UpdateTaskInput): Promise<Task> => {
+    const { data, error } = await supabase
+        .from('tasks')
+        .update({
+            ...(input.status && { status: input.status }),
+            ...(input.title && { title: input.title }),
+            ...(input.description && { description: input.description }),
+        })
+        .eq('id', input.id)
+        .select()
+        .single();
+
+    if (error) {
+        console.error('Error actualizando task:', error);
         throw error;
     }
 

@@ -12,3 +12,10 @@ export interface CreateTaskInput {
     description: string;
     status?: Status;
 }
+
+export interface UpdateTaskInput {
+    id: string;
+    status?: Status;
+    title?: string;
+    description?: string;
+}
