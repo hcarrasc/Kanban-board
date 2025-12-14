@@ -1,7 +1,7 @@
 function Header() {
     return (
         <header className="header">
-            <h1>HC Task List</h1>
+            <h1>Kanban board</h1>
         </header>
     );
 }

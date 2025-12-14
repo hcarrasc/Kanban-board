@@ -61,7 +61,7 @@ function Board() {
                         />
                         <button type="submit">Add</button>
                     </form>
-                    <h2>TRASH</h2>
+                    <h2>TRASH AREA</h2>
                     <ColumnTrash key="trash" id="trash"></ColumnTrash>
                 </div>
             </section>
