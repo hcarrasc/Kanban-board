@@ -28,6 +28,22 @@ body {
 	padding: 1rem;
 	background: #202020;
     color: #f1f1f1;
+	display: flex;
+}
+.header h1 {
+	font-size: 2rem;
+	font-weight: 700;
+	margin-left: 4.2rem;
+}
+.header-actions {
+	margin-top: 0.6rem;
+	margin-left: auto;
+	margin-right: 4rem;
+	gap: 2rem;
+}
+.user {
+	margin-right: 1rem;
+	font-size: 1rem;
 }
 .inbox {
 	grid-area: inbox;
