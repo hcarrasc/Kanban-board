@@ -1,8 +1,8 @@
 import { useAuth } from '../context/useAuth';
-import Login from './Login';
 
 function Header() {
     const { user, signOut } = useAuth();
+    const { signInWithGoogle } = useAuth();
 
     return (
         <header className="header">
@@ -10,11 +10,16 @@ function Header() {
             <div className="header-actions">
                 {user ? (
                     <>
+                        <img src={user.user_metadata.avatar_url} alt="User Avatar" referrerPolicy="no-referrer" />
                         <span className="user">Bienvenido, {user.email}</span>
-                        <button onClick={signOut}>Salir</button>
+                        <button className="logout-btn" onClick={signOut}>
+                            Salir
+                        </button>
                     </>
                 ) : (
-                    <Login />
+                    <button className="login-btn" onClick={signInWithGoogle}>
+                        Entrar con Google
+                    </button>
                 )}
             </div>
         </header>

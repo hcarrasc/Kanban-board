@@ -36,14 +36,36 @@ body {
 	margin-left: 4.2rem;
 }
 .header-actions {
-	margin-top: 0.6rem;
+	display: flex;
+	align-items: center;
 	margin-left: auto;
-	margin-right: 4rem;
-	gap: 2rem;
+	margin-right: 5.5rem;
+	gap: 1rem;
+}
+.header-actions img {
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	object-fit: cover;
+	cursor: pointer;
 }
 .user {
 	margin-right: 1rem;
 	font-size: 1rem;
+}
+.logout-btn, .login-btn {
+	padding: 0.4rem 0.8rem;
+	background: #cdc5c5;
+	color: black;
+	border: none;
+	border-radius: 0.5rem;
+	font-family: 'LATO', sans-serif;
+	font-size: 0.9rem;
+	font-weight: 600;
+	cursor: pointer;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	box-shadow: 0 2px 4px rgba(231, 76, 60, 0.2);
 }
 .inbox {
 	grid-area: inbox;
