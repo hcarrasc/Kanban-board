@@ -5,6 +5,7 @@ import TaskCard from './TaskCard';
 import type { Task, Status } from '../types/task';
 import ColumnTrash from './ColumnTrash';
 import { getTasks, createTask, updateTask } from '../services/taskService';
+import { useAuth } from '../context/useAuth';
 
 const columns: { id: Status; title: string }[] = [
     { id: 'todo', title: 'To do' },
@@ -17,6 +18,7 @@ function Board() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const { user } = useAuth();
 
     useEffect(() => {
         const loadTasks = async () => {
@@ -29,7 +31,7 @@ function Board() {
         };
 
         loadTasks();
-    }, []);
+    }, [user]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -51,9 +53,7 @@ function Board() {
         if (!over) return;
         const taskId = active.id as string;
         const newStatus = over.id as Status;
-        setTasks((prev) =>
-            prev.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task)),
-        );
+        setTasks((prev) => prev.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task)));
 
         try {
             await updateTask({
@@ -71,18 +71,8 @@ function Board() {
                 <div className="column">
                     <h2>NEW TASK</h2>
                     <form className="task-card" onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            placeholder="Title"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                        <input
-                            type="text"
-                            placeholder="Description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
+                        <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                        <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
                         <button type="submit">Add</button>
                     </form>
                     <h2>TRASH AREA</h2>
